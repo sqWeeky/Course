@@ -1,27 +1,15 @@
 ﻿using Services.Input;
-using UnityEngine;
 
 namespace Infastracture
 {
     public class Game
     {
         public static IInputService InputService;
+        public readonly GameStateMachine StateMachine;
 
-        public Game()
+        public Game(ICoroutineRunner coroutineRunner)
         {
-            RegisterInputService();
-        }
-
-        private static void RegisterInputService()
-        {
-            if (Application.isEditor)
-            {
-                InputService = new StandaloneInputService();
-            }
-            else
-            {
-                InputService = new MobileInputService();
-            }
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner));
         }
     }
 }

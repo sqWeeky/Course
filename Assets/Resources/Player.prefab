@@ -1517,7 +1517,7 @@ GameObject:
   - component: {fileID: 4684403152539725594}
   - component: {fileID: 5082574569444486177}
   m_Layer: 0
-  m_Name: MaleCharacterPolyart
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
