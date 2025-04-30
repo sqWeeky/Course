@@ -4,9 +4,9 @@ namespace CameraLogic
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private float _rotationAngleX;
-        [SerializeField] private int _distance;
-        [SerializeField] private float _offsetY;
+        [SerializeField] private float _rotationAngleX = 30f;
+        [SerializeField] private int _distance = 5;
+        [SerializeField] private float _offsetY = 1f;
         [SerializeField] private Transform _following;
 
         private void LateUpdate()

@@ -18,7 +18,7 @@ namespace Player
         private void Awake()
         {
             _inputService = Game.InputService;
-
+            _camera =  Camera.main;
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
         }

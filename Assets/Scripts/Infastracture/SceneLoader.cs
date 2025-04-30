@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Canvas;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
