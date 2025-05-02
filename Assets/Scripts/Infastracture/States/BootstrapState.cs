@@ -1,7 +1,7 @@
 ﻿using Services.Input;
 using UnityEngine;
 
-namespace Infastracture
+namespace Infastracture.States
 {
     public class BootstrapState : IState
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Canvas;
 
-namespace Infastracture
+namespace Infastracture.States
 {
     public class GameStateMachine
     {

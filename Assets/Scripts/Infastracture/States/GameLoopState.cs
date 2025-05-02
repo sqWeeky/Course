@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Infastracture
+﻿namespace Infastracture.States
 {
     public class GameLoopState : IState
     {

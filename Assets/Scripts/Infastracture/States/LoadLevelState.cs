@@ -1,18 +1,19 @@
 ﻿using CameraLogic;
 using Canvas;
+using Infastracture.Factory;
 using UnityEngine;
 
-namespace Infastracture
+namespace Infastracture.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
         private const string InitialPointTag = "InitialPlayerPoint";
-        private const string PlayerPath = "Player";
-        private const string HubPath = "Hub/Hud";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
+        private readonly IGameFactory _gameFactory;
+
 
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
         {
@@ -32,12 +33,10 @@ namespace Infastracture
 
         private void OnLoaded()
         {
-            var initialPoint = GameObject.Find(InitialPointTag);
-
-            var player = Instantiate(PlayerPath, initialPoint.transform.position);
-            Instantiate(HubPath);
+           var player = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
+            _gameFactory.CreateHud();
             CameraFollow(player);
-            
+
             _stateMachine.Enter<GameLoopState>();
         }
 
@@ -45,32 +44,6 @@ namespace Infastracture
         {
             if (Camera.main != null)
                 Camera.main.GetComponent<CameraFollow>().Follow(player);
-        }
-
-        private static GameObject Instantiate(string path)
-        {
-            var prefab = Resources.Load<GameObject>(path);
-
-            if (prefab == null)
-            {
-                Debug.LogError($"[LoadLevelState] Cannot find prefab at Resources/{path}");
-                return null;
-            }
-
-            return Object.Instantiate(prefab);
-        }
-
-        private static GameObject Instantiate(string path, Vector3 at)
-        {
-            var prefab = Resources.Load<GameObject>(path);
-
-            if (prefab == null)
-            {
-                Debug.LogError($"[LoadLevelState] Cannot find prefab at Resources/{path}");
-                return null;
-            }
-
-            return Object.Instantiate(prefab, at, Quaternion.identity);
         }
     }
 }

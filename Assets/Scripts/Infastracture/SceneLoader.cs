@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Canvas;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,12 +22,12 @@ namespace Infastracture
                 onLoad?.Invoke();
                 yield break;
             }
-                
+
             AsyncOperation waitNextScene = SceneManager.LoadSceneAsync(nextScene);
 
             while (waitNextScene is { isDone: false })
                 yield return null;
-            
+
             onLoad?.Invoke();
         }
     }
