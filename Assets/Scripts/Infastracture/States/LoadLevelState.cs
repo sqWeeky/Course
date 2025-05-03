@@ -1,5 +1,6 @@
 ﻿using CameraLogic;
 using Canvas;
+using Infastracture.AssetManagement;
 using Infastracture.Factory;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ namespace Infastracture.States
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
 
-
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IGameFactory gameFactory)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
+            _gameFactory = gameFactory;
         }
 
         public void Enter(string sceneName)
@@ -33,7 +34,7 @@ namespace Infastracture.States
 
         private void OnLoaded()
         {
-           var player = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
+            var player = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
             _gameFactory.CreateHud();
             CameraFollow(player);
 

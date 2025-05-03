@@ -1,4 +1,4 @@
-using Infastracture;
+using Infastracture.Services;
 using Services.Input;
 using UnityEngine;
 
@@ -17,12 +17,13 @@ namespace Player
 
         private void Awake()
         {
-            _inputService = Game.InputService;
-            _camera =  Camera.main;
+            _inputService = AllServices.Container.Single<IInputService>();
+            
+            _camera = Camera.main;
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
         }
-        
+
         private void Update()
         {
             if (_inputService.Axis.sqrMagnitude > 0.001f)

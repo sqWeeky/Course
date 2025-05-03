@@ -1,4 +1,7 @@
-﻿using Services.Input;
+﻿using Infastracture.AssetManagement;
+using Infastracture.Factory;
+using Infastracture.Services;
+using Services.Input;
 using UnityEngine;
 
 namespace Infastracture.States
@@ -6,19 +9,22 @@ namespace Infastracture.States
     public class BootstrapState : IState
     {
         private const string Initial = "Initial";
-        
+
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly AllServices _services;
 
-        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
+            _services = services;
+
+            RegisterServices();
         }
 
         public void Enter()
         {
-            RegisterServices();
             _sceneLoader.Load(Initial, onLoad: EnterLoadLevel);
         }
 
@@ -26,20 +32,22 @@ namespace Infastracture.States
         {
         }
 
-        private void EnterLoadLevel() => 
+        private void EnterLoadLevel() =>
             _stateMachine.Enter<LoadLevelState, string>("Main");
 
-        private static IInputService RegisterInputService()
+        private void RegisterServices()
+        {
+            _services.RegisterSingle<IInputService>(InputService());
+            _services.RegisterSingle<IAssets>(new AssetProvider());
+            _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>()));
+        }
+
+        private static IInputService InputService()
         {
             if (Application.isEditor)
                 return new StandaloneInputService();
             else
                 return new MobileInputService();
-        }
-
-        private void RegisterServices()
-        {
-            Game.InputService = RegisterInputService();
         }
     }
 }
