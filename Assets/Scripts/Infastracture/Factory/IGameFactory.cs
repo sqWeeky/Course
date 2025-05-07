@@ -1,4 +1,6 @@
-﻿using Infastracture.Services;
+﻿using System.Collections.Generic;
+using Infastracture.Services;
+using Infastracture.Services.PersistentProgress;
 using UnityEngine;
 
 namespace Infastracture.Factory
@@ -7,5 +9,8 @@ namespace Infastracture.Factory
     {
         GameObject CreatePlayer(GameObject initialPoint);
         void CreateHud();
+        List<ISavedProgressReader> ProgressReaders { get; }
+        List<ISavedProgress> ProgressWriters { get; }
+        void CleanUp();
     }
 }
