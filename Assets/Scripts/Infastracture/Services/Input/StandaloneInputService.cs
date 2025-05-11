@@ -8,7 +8,7 @@ namespace Services.Input
         {
             get
             {
-                Vector2 axis =  SimpleInputAxis();
+                Vector2 axis = SimpleInputAxis();
 
                 if (axis == Vector2.zero)
                     axis = UnityAxis();
@@ -17,7 +17,7 @@ namespace Services.Input
             }
         }
 
-        private static Vector2 UnityAxis() 
+        private static Vector2 UnityAxis()
             => new(UnityEngine.Input.GetAxis(Horizontal), UnityEngine.Input.GetAxis(Vertical));
     }
 }
