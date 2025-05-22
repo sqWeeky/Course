@@ -1,3 +1,4 @@
+using System;
 using Data;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
@@ -25,6 +26,11 @@ namespace Player
             _camera = Camera.main;
             _characterController = GetComponent<CharacterController>();
             _animator = GetComponent<Animator>();
+        }
+
+        private void Start()
+        {
+               Debug.Log(PlayerPrefs.GetString(SceneManager.GetActiveScene().name)); 
         }
 
         private void Update()
@@ -67,7 +73,7 @@ namespace Player
         private void Warp(Vector3Data to)
         {
             _characterController.enabled = false;
-            transform.position = to.AsUnityVector();
+            transform.position = to.AsUnityVector().AddY(_characterController.height);
             _characterController.enabled = true;
         }
 

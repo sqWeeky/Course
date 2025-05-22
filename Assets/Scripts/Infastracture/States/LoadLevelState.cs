@@ -1,6 +1,5 @@
 ﻿using CameraLogic;
 using Canvas;
-using Infastracture.AssetManagement;
 using Infastracture.Factory;
 using Infastracture.Services.PersistentProgress;
 using UnityEngine;
