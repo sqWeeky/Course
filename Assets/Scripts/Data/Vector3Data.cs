@@ -5,19 +5,15 @@ namespace Data
     [Serializable]
     public class Vector3Data
     {
-        private float _x;
-        private float _y;
-        private float _z;
+        public float X;
+        public float Y;
+        public float Z;
 
         public Vector3Data(float x, float y, float z)
         {
-            _x = x;
-            _y = y;
-            _z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
-
-        public float X => _x;
-        public float Y => _y;
-        public float Z => _z;
     }
 }

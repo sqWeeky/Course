@@ -2,6 +2,7 @@
 using Canvas;
 using Infastracture.Factory;
 using Infastracture.Services.PersistentProgress;
+using Player;
 using UnityEngine;
 
 namespace Infastracture.States
@@ -52,9 +53,23 @@ namespace Infastracture.States
 
         private void InitGameWorld()
         {
-            var player = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
-            _gameFactory.CreateHud();
+            var player = InitPlayer();
+
+            InitHub(player);
             CameraFollow(player);
+            
+        }
+
+        private void InitHub(GameObject player)
+        {
+            GameObject hub = _gameFactory.CreateHud();
+            hub.transform.SetParent(player.transform);
+            hub.GetComponentInChildren<ActorUI>().Construct(player.GetComponent<PlayerHealth>());
+        }
+
+        private GameObject InitPlayer()
+        {
+            return _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
         }
 
         private void CameraFollow(GameObject player)

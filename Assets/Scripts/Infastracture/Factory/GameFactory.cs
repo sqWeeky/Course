@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Infastracture.AssetManagement;
 using Infastracture.Services.PersistentProgress;
 using UnityEngine;
@@ -15,13 +16,20 @@ namespace Infastracture.Factory
         }
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
-
         public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
-        public GameObject CreatePlayer(GameObject initialPoint) =>
-            InstantiateRegistered(Constants.AssetPath.PlayerPath, initialPoint.transform.position);
+        public GameObject HeroGameObject { get; set; }
 
-        public void CreateHud() =>
+        public event Action HeroCreated;
+
+        public GameObject CreatePlayer(GameObject initialPoint)
+        {
+            HeroGameObject = InstantiateRegistered(Constants.AssetPath.PlayerPath, initialPoint.transform.position);
+            HeroCreated?.Invoke();
+            return HeroGameObject;
+        }
+
+        public GameObject CreateHud() =>
             InstantiateRegistered(Constants.AssetPath.HubPath);
 
         public void CleanUp()

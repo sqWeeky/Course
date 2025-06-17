@@ -1,6 +1,7 @@
 ﻿using Data;
 using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.SaveLoad;
+using UnityEngine;
 
 namespace Infastracture.States
 {
@@ -10,7 +11,8 @@ namespace Infastracture.States
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
 
-        public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService, ISaveLoadService saveLoadService)
+        public LoadProgressState(GameStateMachine gameStateMachine, IPersistentProgressService progressService,
+            ISaveLoadService saveLoadService)
         {
             _gameStateMachine = gameStateMachine;
             _progressService = progressService;
@@ -21,7 +23,8 @@ namespace Infastracture.States
         {
             LoadProgressOrInitNew();
 
-            _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.LevelName);
+            _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel
+                .LevelName);
         }
 
         public void Exit()
@@ -33,6 +36,16 @@ namespace Infastracture.States
             _progressService.Progress = _saveLoadService.LoadProgress() ?? NewProgress();
         }
 
-        private PlayerProgress NewProgress() => new PlayerProgress(initialLevel: "Main");
+        private PlayerProgress NewProgress()
+        {
+            var progress = new PlayerProgress(initialLevel: "Main");
+
+            progress.HeroState.MaxHP = 100f;
+            progress.PlayerStats.Damage = 1f;
+            progress.PlayerStats.DamageRadius = 0.5f;
+            progress.HeroState.ResetHP();
+            
+            return progress;
+        }
     }
 }

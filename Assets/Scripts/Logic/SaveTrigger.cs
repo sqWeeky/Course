@@ -1,4 +1,3 @@
-using System;
 using Infastracture.Services;
 using Infastracture.Services.SaveLoad;
 using UnityEngine;
@@ -7,9 +6,9 @@ namespace Logic
 {
     public class SaveTrigger : MonoBehaviour
     {
-        private ISaveLoadService _saveLoadService;
-
         public BoxCollider Collider;
+
+        private ISaveLoadService _saveLoadService;
 
         private void Awake()
         {
@@ -19,17 +18,16 @@ namespace Logic
         private void OnTriggerEnter(Collider other)
         {
             _saveLoadService.SaveProgress();
-            Debug.Log("Progress save");
             gameObject.SetActive(false);
         }
 
         private void OnDrawGizmos()
         {
-            if (Collider != null)
+            if (Collider == null)
                 return;
 
-            Gizmos.color = new Color(30f, 200f, 30f, 130f);
-            Gizmos.DrawWireCube(transform.position + Collider.center, Collider.size);
+            Gizmos.color = new Color32(30, 200, 30, 130);
+            Gizmos.DrawCube(transform.position + Collider.center, Collider.size);
         }
     }
 }

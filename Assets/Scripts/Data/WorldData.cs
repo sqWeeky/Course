@@ -7,7 +7,7 @@ namespace Data
     {
         public PositionOnLevel PositionOnLevel;
 
-        public WorldData(string initialLevel)
+        public WorldData( string initialLevel)
         {
             PositionOnLevel = new PositionOnLevel(initialLevel);
         }

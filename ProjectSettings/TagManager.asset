@@ -18,10 +18,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - AggroZone
+  - AttackZone
+  - Hittable
   - 
   - 
   - 
