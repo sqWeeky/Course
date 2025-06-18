@@ -1,7 +1,6 @@
-﻿using Infastracture.Services;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Services.Input
+namespace Infastracture.Services.Input
 {
     public interface IInputService : IService
     {

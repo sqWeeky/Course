@@ -1,19 +1,15 @@
 ﻿using UnityEngine;
 
-namespace Services.Input
+namespace Infastracture.Services.Input
 {
     public abstract class InputService : IInputService
     {
-        protected const string Horizontal = "Horizontal";
-        protected const string Vertical = "Vertical";
-        private const string ButtonFire = "Fire";
-
         public abstract Vector2 Axis { get; }
 
         public bool IsAttackButtonUp()
-            => SimpleInput.GetButtonUp(ButtonFire);
+            => SimpleInput.GetButtonUp(Constants.InputService.ButtonFire);
 
         protected static Vector2 SimpleInputAxis()
-            => new Vector2(SimpleInput.GetAxis(Horizontal), SimpleInput.GetAxis(Vertical));
+            => new Vector2(SimpleInput.GetAxis(Constants.InputService.Horizontal), SimpleInput.GetAxis(Constants.InputService.Vertical));
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Infastracture.AssetManagement;
 using Infastracture.Factory;
 using Infastracture.Services;
+using Infastracture.Services.Input;
 using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.SaveLoad;
-using Services.Input;
 using UnityEngine;
 
 namespace Infastracture.States

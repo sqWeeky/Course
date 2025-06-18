@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Services.Input
+namespace Infastracture.Services.Input
 {
     public class StandaloneInputService : InputService
     {
@@ -18,6 +18,6 @@ namespace Services.Input
         }
 
         private static Vector2 UnityAxis()
-            => new(UnityEngine.Input.GetAxis(Horizontal), UnityEngine.Input.GetAxis(Vertical));
+            => new(UnityEngine.Input.GetAxis(Constants.InputService.Horizontal), UnityEngine.Input.GetAxis(Constants.InputService.Vertical));
     }
 }

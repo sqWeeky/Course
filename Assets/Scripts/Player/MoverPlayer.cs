@@ -1,7 +1,7 @@
 using Data;
 using Infastracture.Services;
+using Infastracture.Services.Input;
 using Infastracture.Services.PersistentProgress;
-using Services.Input;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
