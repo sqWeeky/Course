@@ -1,5 +1,4 @@
 using Infastracture.Factory;
-using Infastracture.Services;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,17 +14,13 @@ namespace Enemy
         private Transform _heroTransform;
         private IGameFactory _gameFactory;
 
-        private void Start()
-        {
-            _gameFactory = AllServices.Container.Single<IGameFactory>();
+        private void Update() => 
+            SetDestinationForAgent();
 
-            if (_gameFactory.HeroGameObject != null)
-                InitializeHeroTransform();
-            else
-                _gameFactory.HeroCreated += HeroCreated;
-        }
+        public void Construct(Transform heroTransform) => 
+            _heroTransform = heroTransform;
 
-        private void Update()
+        private void SetDestinationForAgent()
         {
             if (Initialized() && HeroNotReached())
                 _agent.destination = _heroTransform.position;
@@ -33,12 +28,6 @@ namespace Enemy
 
         private bool Initialized() =>
             _heroTransform != null;
-
-        private void HeroCreated() =>
-            InitializeHeroTransform();
-
-        private void InitializeHeroTransform() =>
-            _heroTransform = _gameFactory.HeroGameObject.transform;
 
         private bool HeroNotReached() =>
             Vector3.Distance(_agent.transform.position, _heroTransform.position) >= MinimalDistance;

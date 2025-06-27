@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
+using StaticData;
 using UnityEngine;
 
 namespace Infastracture.Factory
@@ -10,12 +10,12 @@ namespace Infastracture.Factory
     {
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
-        GameObject HeroGameObject { get; }
-
-        event Action HeroCreated;
+        
         GameObject CreatePlayer(GameObject initialPoint);
-
         GameObject CreateHud();
         void CleanUp();
+        void Register(ISavedProgressReader savedProgress);
+        GameObject CreateMonster(MonsterTypeID typeID, Transform parent);
+        GameObject CreatLoot();
     }
 }

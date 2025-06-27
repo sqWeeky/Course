@@ -10,15 +10,15 @@ namespace Player
         [SerializeField] private CharacterController _characterController;
         [SerializeField] public Animator _animator;
 
-        private static readonly int MoveHash = Animator.StringToHash("Walking");
-        private static readonly int AttackHash = Animator.StringToHash("AttackNormal");
+        private static readonly int MoveHash = Animator.StringToHash("Moving");
+        private static readonly int AttackHash = Animator.StringToHash("Attack_1");
         private static readonly int HitHash = Animator.StringToHash("Hit");
         private static readonly int DieHash = Animator.StringToHash("Die");
 
         private readonly int _idleStateHash = Animator.StringToHash("Idle");
         private readonly int _idleStateFullHash = Animator.StringToHash("Base Layer.Idle");
-        private readonly int _attackStateHash = Animator.StringToHash("Attack Normal");
-        private readonly int _walkingStateHash = Animator.StringToHash("Run");
+        private readonly int _attackStateHash = Animator.StringToHash("Attack_1");
+        private readonly int _walkingStateHash = Animator.StringToHash("Moving");
         private readonly int _deathStateHash = Animator.StringToHash("Die");
 
         public event Action<AnimatorState> StateEntered;

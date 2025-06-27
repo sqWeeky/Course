@@ -1,5 +1,3 @@
-using Infastracture.Factory;
-using Infastracture.Services;
 using UnityEngine;
 
 namespace Enemy
@@ -9,23 +7,8 @@ namespace Enemy
         [SerializeField] private float _rotationSpeed = 20f;
 
         private Transform _playerTransform;
-        private IGameFactory _gameFactory;
         private Vector3 _positionToLook;
-
-        private void Start()
-        {
-            _gameFactory = AllServices.Container.Single<IGameFactory>();
-
-            if (PlayerExists())
-            {
-                InitializePlayerTransform();
-            }
-            else
-            {
-                _gameFactory.HeroCreated += InitializePlayerTransform;
-            }
-        }
-
+       
         private void Update()
         {
             if (Initialized())
@@ -33,6 +16,9 @@ namespace Enemy
                 RotateTowardsPlayer();
             }
         }
+        
+        public void Construct(Transform heroTransform) =>
+            _playerTransform = heroTransform;
 
         private void RotateTowardsPlayer()
         {
@@ -59,10 +45,5 @@ namespace Enemy
         private bool Initialized() =>
             _playerTransform != null;
 
-        private void InitializePlayerTransform() =>
-            _playerTransform = _gameFactory.HeroGameObject.transform;
-
-        private bool PlayerExists() =>
-            _gameFactory.HeroGameObject != null;
-    }
+        }
 }

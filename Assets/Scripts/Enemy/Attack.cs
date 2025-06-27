@@ -1,8 +1,6 @@
 using System.Linq;
 using Infastracture.Factory;
-using Infastracture.Services;
 using Logic;
-using Player;
 using UnityEngine;
 
 namespace Enemy
@@ -11,10 +9,11 @@ namespace Enemy
     public class Attack : MonoBehaviour
     {
         [SerializeField] private EnemyAnimator _animator;
-        [SerializeField] private float _cooldown = 3f;
-        [SerializeField] private float _cleavage = 0.5f;
-        [SerializeField] private float _effectiveDistance = 0.5f;
-        [SerializeField] private float _damage = 10f;
+
+        public float Cooldown;
+        public float Cleavage;
+        public float EffectiveDistance;
+        public float Damage;
 
         private IGameFactory _gameFactory;
         private Transform _playerTransform;
@@ -26,8 +25,6 @@ namespace Enemy
 
         private void Awake()
         {
-            _gameFactory = AllServices.Container.Single<IGameFactory>();
-            _gameFactory.HeroCreated += OnPlayerCreated;
             _layerMask = 1 << LayerMask.NameToLayer("Player");
         }
 
@@ -39,6 +36,9 @@ namespace Enemy
                 StartAttack();
         }
 
+        public void Construct(Transform heroTransform) =>
+            _playerTransform = heroTransform;
+
         public void DisableAttack() =>
             _attackIsActive = false;
 
@@ -49,15 +49,15 @@ namespace Enemy
         {
             if (Hit(out Collider hit))
             {
-                PhysicsDebug.DrawDebug(StartPoint(), _cleavage, 1f);
+                PhysicsDebug.DrawDebug(StartPoint(), Cleavage, 1f);
                 Debug.Log("Attack");
-                hit.transform.GetComponent<IHealth>().TakeDamage(_damage);
+                hit.transform.GetComponent<IHealth>().TakeDamage(Damage);
             }
         }
 
         private bool Hit(out Collider hit)
         {
-            int hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), _cleavage, _hits, _layerMask);
+            int hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), Cleavage, _hits, _layerMask);
 
             hit = _hits.FirstOrDefault();
 
@@ -67,12 +67,12 @@ namespace Enemy
         private Vector3 StartPoint()
         {
             return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) +
-                   transform.forward * _effectiveDistance;
+                   transform.forward * EffectiveDistance;
         }
 
         private void OnAttackEnded()
         {
-            _attackCooldown = _cooldown;
+            _attackCooldown = Cooldown;
             _isAttacking = false;
         }
 
@@ -95,8 +95,5 @@ namespace Enemy
 
         private bool CooldownIsUp() =>
             _attackCooldown <= 0;
-
-        private void OnPlayerCreated() =>
-            _playerTransform = _gameFactory.HeroGameObject.transform;
     }
 }

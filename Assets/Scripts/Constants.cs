@@ -11,6 +11,7 @@ public class Constants : MonoBehaviour
     {
         public const string PlayerPath = "Player";
         public const string HubPath = "Hub/Hud";
+        public const string Loot = "Loot/Loot";
     }
 
     public class InputService
