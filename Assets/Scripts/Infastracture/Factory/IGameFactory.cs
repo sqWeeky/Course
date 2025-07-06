@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Enemy;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
 using StaticData;
@@ -16,6 +17,6 @@ namespace Infastracture.Factory
         void CleanUp();
         void Register(ISavedProgressReader savedProgress);
         GameObject CreateMonster(MonsterTypeID typeID, Transform parent);
-        GameObject CreatLoot();
+        LootPiece CreatLoot();
     }
 }

@@ -11,6 +11,9 @@ namespace StaticData
 
         [Range(1f, 30f)] public float Damage;
 
+        public int MaxLoot;
+        public int MinLoot;
+
         [Range(1f, 30f)] public float MoveSpeed;
 
         [Range(0f, 1f)] public float EffectiveDistance;

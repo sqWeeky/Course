@@ -4,6 +4,7 @@ using Enemy;
 using Infastracture.AssetManagement;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
+using Infastracture.Services.Randomizer;
 using Logic;
 using StaticData;
 using UnityEngine;
@@ -16,11 +17,16 @@ namespace Infastracture.Factory
     {
         private readonly IAssets _assets;
         private readonly IStaticDataService _staticData;
+        private readonly IRandomService _randomService;
+        private readonly IPersistentProgressService _progressService;
 
-        public GameFactory(IAssets assets, IStaticDataService staticData)
+        public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService,
+            IPersistentProgressService persistentProgressService)
         {
             _assets = assets;
             _staticData = staticData;
+            _randomService = randomService;
+            _progressService = persistentProgressService;
         }
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
@@ -28,8 +34,12 @@ namespace Infastracture.Factory
 
         private GameObject HeroGameObject { get; set; }
 
-        public GameObject CreatLoot() => 
-            InstantiateRegistered(Constants.AssetPath.Loot);
+        public LootPiece CreatLoot()
+        {
+            LootPiece lootPiece = InstantiateRegistered(Constants.AssetPath.Loot).GetComponent<LootPiece>();
+            lootPiece.Construct(_progressService.Progress.WorldData);
+            return lootPiece;
+        }
 
         public GameObject CreatePlayer(GameObject initialPoint)
         {
@@ -57,7 +67,8 @@ namespace Infastracture.Factory
             monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
             var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
-            lootSpawner.Construct(this);
+            lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
+            lootSpawner.Construct(this, _randomService);
 
             var attack = monster.GetComponent<Attack>();
             attack.Construct(HeroGameObject.transform);
