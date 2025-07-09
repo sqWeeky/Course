@@ -15,21 +15,19 @@ namespace Canvas
 
             if (health != null)
                 Construct(health);
-
-            //Debug.Log(_health);
         }
 
         public void Construct(IHealth heath)
         {
             _health = heath;
 
-            _health.HealthChanged += UpdateUPBar;
+            _health.HealthChanged += UpdateUpBar;
         }
 
         private void OnDestroy() =>
-            _health.HealthChanged -= UpdateUPBar;
+            _health.HealthChanged -= UpdateUpBar;
 
-        private void UpdateUPBar()
+        private void UpdateUpBar()
         {
             _hpBar.SetValue(_health.CurrentHealth, _health.MaxHealth);
         }

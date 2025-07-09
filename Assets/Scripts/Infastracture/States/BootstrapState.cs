@@ -26,10 +26,8 @@ namespace Infastracture.States
             RegisterServices();
         }
 
-        public void Enter()
-        {
+        public void Enter() =>
             _sceneLoader.Load(Initial, onLoad: EnterLoadLevel);
-        }
 
         public void Exit()
         {
@@ -42,7 +40,8 @@ namespace Infastracture.States
         {
             RegisterStaticData();
 
-            _services.RegisterSingle(InputService());
+            _services.RegisterSingle<IInputService>(InputService());
+            _services.RegisterSingle<IRandomService>(new RandomService());
             _services.RegisterSingle<IAssets>(new AssetProvider());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),

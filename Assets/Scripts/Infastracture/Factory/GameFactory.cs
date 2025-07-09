@@ -47,19 +47,22 @@ namespace Infastracture.Factory
             return HeroGameObject;
         }
 
-        public GameObject CreateHud() =>
-            InstantiateRegistered(Constants.AssetPath.HubPath);
+        public GameObject CreateHud()
+        {
+            GameObject hud = InstantiateRegistered(Constants.AssetPath.HubPath);
+            
+            hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
+            
+            return hud;
+        }
 
         public GameObject CreateMonster(MonsterTypeID typeID, Transform parent)
         {
             MonsterStaticData monsterData = _staticData.ForMonster(typeID);
-            Debug.Log(monsterData);
             GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
-            Debug.Log(monster.name);
 
             IHealth health = monster.GetComponent<IHealth>();
             health.CurrentHealth = monsterData.Health;
-
             health.MaxHealth = monsterData.Health;
 
             monster.GetComponent<ActorUI>().Construct(health);

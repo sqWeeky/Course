@@ -1,4 +1,3 @@
-using System;
 using Data;
 using Enemy;
 using Infastracture.Factory;
@@ -29,7 +28,7 @@ namespace Logic
 
         public void LoadProgress(PlayerProgress progress)
         {
-            if (progress.KillData.ClearedSpawners.Contains(_id)) 
+            if (progress.KillData.ClearedSpawners.Contains(_id))
                 _slain = true;
             else
                 Spawn();
@@ -46,7 +45,7 @@ namespace Logic
         {
             if (_enemyDeath != null)
                 _enemyDeath.Happened -= Slay;
-            
+
             _slain = true;
         }
 

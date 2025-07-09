@@ -50,7 +50,6 @@ namespace Enemy
             if (Hit(out Collider hit))
             {
                 PhysicsDebug.DrawDebug(StartPoint(), Cleavage, 1f);
-                Debug.Log("Attack");
                 hit.transform.GetComponent<IHealth>().TakeDamage(Damage);
             }
         }
@@ -58,17 +57,14 @@ namespace Enemy
         private bool Hit(out Collider hit)
         {
             int hitCount = Physics.OverlapSphereNonAlloc(StartPoint(), Cleavage, _hits, _layerMask);
-
             hit = _hits.FirstOrDefault();
 
             return hitCount > 0;
         }
 
-        private Vector3 StartPoint()
-        {
-            return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) +
-                   transform.forward * EffectiveDistance;
-        }
+        private Vector3 StartPoint() =>
+            new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) +
+            transform.forward * EffectiveDistance;
 
         private void OnAttackEnded()
         {

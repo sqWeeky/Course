@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Logic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace Editor
+// ReSharper disable once CheckNamespace
+namespace Logic
 {
     [CustomEditor(inspectedType: typeof(UniqueID))]
     public class UniqueIDEditor : UnityEditor.Editor
@@ -35,7 +35,7 @@ namespace Editor
 
         private void Generate(UniqueID uniqueID)
         {
-            uniqueID.ID = $"{uniqueID.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
+            //uniqueID.ID = $"{uniqueID.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
 
             if (!Application.isPlaying)
             {

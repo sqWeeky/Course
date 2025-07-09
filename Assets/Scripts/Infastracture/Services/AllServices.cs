@@ -1,6 +1,4 @@
-﻿using Infastracture.Factory;
-
-namespace Infastracture.Services
+﻿namespace Infastracture.Services
 {
     public class AllServices
     {

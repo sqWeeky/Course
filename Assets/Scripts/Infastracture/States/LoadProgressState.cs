@@ -40,10 +40,10 @@ namespace Infastracture.States
         {
             var progress = new PlayerProgress(initialLevel: "Main");
 
-            progress.HeroState.MaxHP = 100f;
+            progress.PlayerState.MaxHP = 100f;
             progress.PlayerStats.Damage = 1f;
             progress.PlayerStats.DamageRadius = 0.5f;
-            progress.HeroState.ResetHP();
+            progress.PlayerState.ResetHP();
             
             return progress;
         }

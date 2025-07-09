@@ -36,14 +36,14 @@ namespace Player
 
         public void LoadProgress(PlayerProgress progress)
         {
-            _state = progress.HeroState;
+            _state = progress.PlayerState;
             HealthChanged?.Invoke();
         }
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            progress.HeroState.CurrentHP = CurrentHealth;
-            progress.HeroState.MaxHP = MaxHealth;
+            progress.PlayerState.CurrentHP = CurrentHealth;
+            progress.PlayerState.MaxHP = MaxHealth;
         }
 
         public void TakeDamage(float damage)

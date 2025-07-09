@@ -51,7 +51,10 @@ namespace Infastracture.States
         private void InformProgressReaders()
         {
             foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
+            {
+                Debug.Log(progressReader);
                 progressReader.LoadProgress(_progressService.Progress);
+            }
         }
 
         private void InitGameWorld()
