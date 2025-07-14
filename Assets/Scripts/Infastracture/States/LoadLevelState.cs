@@ -1,5 +1,6 @@
 ﻿using CameraLogic;
 using Canvas;
+using Enemy;
 using Infastracture.Factory;
 using Infastracture.Services.PersistentProgress;
 using Logic;
@@ -60,6 +61,7 @@ namespace Infastracture.States
         private void InitGameWorld()
         {
             InitSpawners();
+            InitLootPieces();
 
             var player = InitPlayer();
 
@@ -76,6 +78,14 @@ namespace Infastracture.States
             }
         }
 
+        private void InitLootPieces()
+        {
+            foreach (string key in _progressService.Progress.WorldData.LootData.LootPiecesOnScene.Dictionary.Keys)
+            {
+                LootPiece lootPiece = _gameFactory.CreatLoot();
+                lootPiece.GetComponent<UniqueID>().ID = key;
+            }
+        }
 
         private void InitHub(GameObject player)
         {
