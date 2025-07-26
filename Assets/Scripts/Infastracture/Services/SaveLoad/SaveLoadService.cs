@@ -22,7 +22,9 @@ namespace Infastracture.Services.SaveLoad
         {
             foreach (ISavedProgress progressWriter in _gameFactory.ProgressWriters) 
                 progressWriter.UpdateProgress(_progressService.Progress);
-            
+
+            Debug.LogError(_progressService.Progress.ToJson());
+
             PlayerPrefs.SetString(ProgressKey, _progressService.Progress.ToJson());
         }
 

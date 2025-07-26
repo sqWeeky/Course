@@ -18,7 +18,6 @@ namespace Enemy
         private WorldData _worldData;
 
         private string _id;
-
         private bool _picked;
         private bool _loadedFromProgress;
 
@@ -31,35 +30,34 @@ namespace Enemy
         public void Construct(WorldData worldData) =>
             _worldData = worldData;
 
-        public void Initialize(Loot loot)
-        {
+        public void Initialize(Loot loot) =>
             _loot = loot;
-        }
 
         public void LoadProgress(PlayerProgress progress)
         {
-            Debug.Log("Loading Loot");
             _id = GetComponent<UniqueID>().ID;
+            var lootPieceData = progress.WorldData.LootData.LootPiecesOnScene.Get(_id);
 
-            LootPieceData data = progress.WorldData.LootData.LootPiecesOnScene.Dictionary[_id];
-            Initialize(data.Loot);
-            transform.position = data.Position.AsUnityVector();
-
-            _loadedFromProgress = true;
+            if (lootPieceData != null)
+            {
+                Initialize(lootPieceData.Loot);
+                transform.position = lootPieceData.Position.AsUnityVector();
+                _loadedFromProgress = true;
+                _skullPrefab.SetActive(true);
+            }
         }
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            Debug.Log("UpdateProgress");
-            if (_picked)
-                return;
+            if (_picked) return;
 
-            LootPieceDataDictionary lootPiecesOnScene = progress.WorldData.LootData.LootPiecesOnScene;
+            Debug.Log($"Saving loot: ID={_id}, Pos={transform.position}");
+            var lootPieces = progress.WorldData.LootData.LootPiecesOnScene;
 
-            if (!lootPiecesOnScene.Dictionary.ContainsKey(_id))
-                lootPiecesOnScene.Dictionary.Add(_id, new LootPieceData(transform.position.AsVectorData(), _loot));
-            
-            Debug.Log(lootPiecesOnScene.Dictionary[_id]);
+            if (lootPieces.Get(_id) == null)
+            {
+                lootPieces.Add(_id, new LootPieceData(transform.position.AsVectorData(), _loot));
+            }
         }
 
         private void OnTriggerEnter(Collider other) =>
@@ -67,17 +65,14 @@ namespace Enemy
 
         private void PickUp()
         {
-            if (!_picked)
-            {
-                _picked = true;
+            if (_picked) return;
 
-                UpdateWorldData();
-                HideSkull();
-                PlayPickUpFX();
-                ShowText();
-
-                StartCoroutine(StartDestroyTimer());
-            }
+            _picked = true;
+            UpdateWorldData();
+            HideSkull();
+            PlayPickUpFX();
+            ShowText();
+            StartCoroutine(StartDestroyTimer());
         }
 
         private void UpdateWorldData()
@@ -86,13 +81,8 @@ namespace Enemy
             RemoveLootPieceFromSavedPieces();
         }
 
-        private void RemoveLootPieceFromSavedPieces()
-        {
-            LootPieceDataDictionary savedLootPieces = _worldData.LootData.LootPiecesOnScene;
-
-            if (savedLootPieces.Dictionary.ContainsKey(_id))
-                savedLootPieces.Dictionary.Remove(_id);
-        }
+        private void RemoveLootPieceFromSavedPieces() =>
+            _worldData.LootData.LootPiecesOnScene.Remove(_id);
 
         private void UpdateCollectedLootAmount() =>
             _worldData.LootData.Collect(_loot);
@@ -101,7 +91,7 @@ namespace Enemy
             _skullPrefab.SetActive(false);
 
         private void PlayPickUpFX() =>
-            Instantiate(_pickUpPopupPrefab, transform.position, Quaternion.identity);
+            Instantiate(_pickUpFXPrefab, transform.position, Quaternion.identity);
 
         private void ShowText()
         {
@@ -112,7 +102,6 @@ namespace Enemy
         private IEnumerator StartDestroyTimer()
         {
             yield return new WaitForSeconds(1.5f);
-
             Destroy(gameObject);
         }
     }

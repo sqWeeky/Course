@@ -1,5 +1,6 @@
 ﻿using CameraLogic;
 using Canvas;
+using Data;
 using Enemy;
 using Infastracture.Factory;
 using Infastracture.Services.PersistentProgress;
@@ -80,10 +81,20 @@ namespace Infastracture.States
 
         private void InitLootPieces()
         {
-            foreach (string key in _progressService.Progress.WorldData.LootData.LootPiecesOnScene.Dictionary.Keys)
+            var lootPieces = _progressService.Progress.WorldData.LootData.LootPiecesOnScene;
+
+            for (int i = 0; i < lootPieces.Keys.Count; i++)
             {
+                string key = lootPieces.Keys[i];
+                LootPieceData data = lootPieces.Values[i];
+
+                Debug.Log($"Initializing loot piece: ID={key}, Value={data.Loot.Value}");
+
                 LootPiece lootPiece = _gameFactory.CreatLoot();
                 lootPiece.GetComponent<UniqueID>().ID = key;
+                lootPiece.Construct(_progressService.Progress.WorldData);
+                lootPiece.Initialize(data.Loot);
+                lootPiece.transform.position = data.Position.AsUnityVector();
             }
         }
 
