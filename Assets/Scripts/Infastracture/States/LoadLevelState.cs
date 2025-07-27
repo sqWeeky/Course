@@ -1,11 +1,15 @@
 ﻿using CameraLogic;
 using Canvas;
+using Data;
 using Enemy;
 using Infastracture.Factory;
+using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
 using Logic;
 using Player;
+using StaticData;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Infastracture.States
 {
@@ -19,16 +23,18 @@ namespace Infastracture.States
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
+        private readonly IStaticDataService _staticDataService;
 
 
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain,
-            IGameFactory gameFactory, IPersistentProgressService progressService)
+            IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticDataService)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
             _progressService = progressService;
+            _staticDataService = staticDataService;
         }
 
         public void Enter(string sceneName)
@@ -53,7 +59,6 @@ namespace Infastracture.States
         {
             foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
             {
-                Debug.Log(progressReader);
                 progressReader.LoadProgress(_progressService.Progress);
             }
         }
@@ -71,16 +76,16 @@ namespace Infastracture.States
 
         private void InitSpawners()
         {
-            foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
-            {
-                var spawner = spawnerObject.GetComponent<EnemySpawner>();
-                _gameFactory.Register(spawner);
-            }
+            string sceneKye = SceneManager.GetActiveScene().name;
+            LevelStaticData levelData = _staticDataService.ForLevel(sceneKye);
+
+            foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
+                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeID);
         }
 
         private void InitLootPieces()
         {
-            foreach (string key in _progressService.Progress.WorldData.LootData.LootPiecesOnScene.Dictionary.Keys)
+            foreach (string key in _progressService.Progress.WorldData.LootData.LootPiecesOnScene.Id)
             {
                 LootPiece lootPiece = _gameFactory.CreatLoot();
                 lootPiece.GetComponent<UniqueID>().ID = key;

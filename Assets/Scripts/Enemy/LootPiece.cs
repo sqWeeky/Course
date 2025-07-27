@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Data;
 using Infastracture.Services.PersistentProgress;
 using Logic;
@@ -38,28 +39,22 @@ namespace Enemy
 
         public void LoadProgress(PlayerProgress progress)
         {
-            Debug.Log("Loading Loot");
             _id = GetComponent<UniqueID>().ID;
 
-            LootPieceData data = progress.WorldData.LootData.LootPiecesOnScene.Dictionary[_id];
+            LootPieceData data = progress.WorldData.LootData.LootPiecesOnScene.Get(_id);
             Initialize(data.Loot);
             transform.position = data.Position.AsUnityVector();
-
-            _loadedFromProgress = true;
         }
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            Debug.Log("UpdateProgress");
             if (_picked)
                 return;
 
-            LootPieceDataDictionary lootPiecesOnScene = progress.WorldData.LootData.LootPiecesOnScene;
+            LootPieceDataDictinary lootPiecesOnScene = progress.WorldData.LootData.LootPiecesOnScene;
 
-            if (!lootPiecesOnScene.Dictionary.ContainsKey(_id))
-                lootPiecesOnScene.Dictionary.Add(_id, new LootPieceData(transform.position.AsVectorData(), _loot));
-            
-            Debug.Log(lootPiecesOnScene.Dictionary[_id]);
+            if (!lootPiecesOnScene.Contains(_id))
+                lootPiecesOnScene.Add(_id, new LootPieceData(transform.position.AsVectorData(), _loot));
         }
 
         private void OnTriggerEnter(Collider other) =>
@@ -88,10 +83,10 @@ namespace Enemy
 
         private void RemoveLootPieceFromSavedPieces()
         {
-            LootPieceDataDictionary savedLootPieces = _worldData.LootData.LootPiecesOnScene;
+            LootPieceDataDictinary savedLootPieces = _worldData.LootData.LootPiecesOnScene;
 
-            if (savedLootPieces.Dictionary.ContainsKey(_id))
-                savedLootPieces.Dictionary.Remove(_id);
+            if (savedLootPieces.Contains(_id))
+                savedLootPieces.Remove(_id);
         }
 
         private void UpdateCollectedLootAmount() =>

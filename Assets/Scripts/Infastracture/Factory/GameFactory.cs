@@ -6,6 +6,7 @@ using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.Randomizer;
 using Logic;
+using Logic.EnemySpawners;
 using StaticData;
 using UnityEngine;
 using UnityEngine.AI;
@@ -50,10 +51,21 @@ namespace Infastracture.Factory
         public GameObject CreateHud()
         {
             GameObject hud = InstantiateRegistered(Constants.AssetPath.HubPath);
-            
+
             hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
-            
+
             return hud;
+        }
+
+        public void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeID monsterTypeID)
+        {
+            SpawnPoint spawner = InstantiateRegistered(Constants.AssetPath.Spawner)
+                .GetComponent<SpawnPoint>();
+
+            spawner.Construct(this);
+            spawner.Id = spawnerId;
+            spawner.MonsterTypeID = monsterTypeID;
+            spawner.transform.position = at;
         }
 
         public GameObject CreateMonster(MonsterTypeID typeID, Transform parent)

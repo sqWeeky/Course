@@ -35,7 +35,7 @@ namespace Logic
 
         private void Generate(UniqueID uniqueID)
         {
-            //uniqueID.ID = $"{uniqueID.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
+            uniqueID.ID = $"{uniqueID.gameObject.scene.name}_{Guid.NewGuid().ToString()}";
 
             if (!Application.isPlaying)
             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Data
 {
@@ -6,7 +7,7 @@ namespace Data
     public class LootData
     {
         public int Collected;
-        public LootPieceDataDictionary LootPiecesOnScene = new LootPieceDataDictionary();
+        public LootPieceDataDictinary LootPiecesOnScene = new();
 
         public Action Changed;
 

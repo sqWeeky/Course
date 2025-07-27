@@ -4,7 +4,8 @@ namespace Infastracture.Services
 {
     public interface IStaticDataService: IService
     {
-        void LoadMonsters();
+        void Load();
         MonsterStaticData ForMonster(MonsterTypeID monsterType);
+        LevelStaticData ForLevel(string sceneKye);
     }
 }

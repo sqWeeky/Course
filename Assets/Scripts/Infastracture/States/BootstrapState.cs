@@ -5,6 +5,7 @@ using Infastracture.Services.Input;
 using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.Randomizer;
 using Infastracture.Services.SaveLoad;
+using StaticData;
 using UnityEngine;
 
 namespace Infastracture.States
@@ -54,7 +55,7 @@ namespace Infastracture.States
         private void RegisterStaticData()
         {
             IStaticDataService staticData = new StaticDataService();
-            staticData.LoadMonsters();
+            staticData.Load();
             _services.RegisterSingle(staticData);
         }
 
