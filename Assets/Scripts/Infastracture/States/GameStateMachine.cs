@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Canvas;
 using Infastracture.Factory;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.SaveLoad;
+using UI;
+using UI.Elements;
+using UI.Services.Factory;
 
 namespace Infastracture.States
 {
@@ -20,7 +22,8 @@ namespace Infastracture.States
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] =
                     new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>(),
-                        services.Single<IPersistentProgressService>(), services.Single<IStaticDataService>()),
+                        services.Single<IPersistentProgressService>(), services.Single<IStaticDataService>(),
+                        services.Single<IUIFactory>()),
                 [typeof(LoadProgressState)] =
                     new LoadProgressState(this, services.Single<IPersistentProgressService>(),
                         services.Single<ISaveLoadService>()),

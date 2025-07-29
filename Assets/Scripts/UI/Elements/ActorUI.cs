@@ -1,7 +1,7 @@
 ﻿using Logic;
 using UnityEngine;
 
-namespace Canvas
+namespace UI.Elements
 {
     public class ActorUI : MonoBehaviour
     {

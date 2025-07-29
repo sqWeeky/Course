@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Canvas
+namespace CameraLogic
 {
     public class LookAtCamera : MonoBehaviour
     {

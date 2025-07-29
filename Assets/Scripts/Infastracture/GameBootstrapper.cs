@@ -1,5 +1,6 @@
-using Canvas;
 using Infastracture.States;
+using UI;
+using UI.Elements;
 using UnityEngine;
 
 namespace Infastracture

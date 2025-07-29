@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Canvas;
 using Enemy;
 using Infastracture.AssetManagement;
 using Infastracture.Services;
@@ -8,6 +7,9 @@ using Infastracture.Services.Randomizer;
 using Logic;
 using Logic.EnemySpawners;
 using StaticData;
+using UI;
+using UI.Elements;
+using UI.Services.Window;
 using UnityEngine;
 using UnityEngine.AI;
 using Object = UnityEngine.Object;
@@ -20,14 +22,16 @@ namespace Infastracture.Factory
         private readonly IStaticDataService _staticData;
         private readonly IRandomService _randomService;
         private readonly IPersistentProgressService _progressService;
+        private readonly IWindowService _windowService;
 
         public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService,
-            IPersistentProgressService persistentProgressService)
+            IPersistentProgressService persistentProgressService, IWindowService windowService)
         {
             _assets = assets;
             _staticData = staticData;
             _randomService = randomService;
             _progressService = persistentProgressService;
+            _windowService = windowService;
         }
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
@@ -51,8 +55,12 @@ namespace Infastracture.Factory
         public GameObject CreateHud()
         {
             GameObject hud = InstantiateRegistered(Constants.AssetPath.HubPath);
-
             hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
+
+            foreach (OpenWindowButton openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>())
+            {
+                openWindowButton.Construct(_windowService);
+            }
 
             return hud;
         }

@@ -1,6 +1,4 @@
 ﻿using CameraLogic;
-using Canvas;
-using Data;
 using Enemy;
 using Infastracture.Factory;
 using Infastracture.Services;
@@ -8,6 +6,8 @@ using Infastracture.Services.PersistentProgress;
 using Logic;
 using Player;
 using StaticData;
+using UI.Elements;
+using UI.Services.Factory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -24,10 +24,11 @@ namespace Infastracture.States
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
         private readonly IStaticDataService _staticDataService;
-
+        private readonly IUIFactory _uiFactory;
 
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain,
-            IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticDataService)
+            IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticDataService,
+            IUIFactory uiFactory)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
@@ -35,6 +36,7 @@ namespace Infastracture.States
             _gameFactory = gameFactory;
             _progressService = progressService;
             _staticDataService = staticDataService;
+            _uiFactory = uiFactory;
         }
 
         public void Enter(string sceneName)
@@ -49,11 +51,15 @@ namespace Infastracture.States
 
         private void OnLoaded()
         {
+            IniUIRoot();
             InitGameWorld();
             InformProgressReaders();
 
             _stateMachine.Enter<GameLoopState>();
         }
+
+        private void IniUIRoot() =>
+            _uiFactory.CreateUIRoot();
 
         private void InformProgressReaders()
         {

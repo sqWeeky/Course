@@ -21,4 +21,10 @@ public class Constants : MonoBehaviour
         public const string Vertical = "Vertical";
         public const string ButtonFire = "Fire";
     }
+
+
+    public class UI
+    {
+        public const string UIRootPath = "UI/UIRoot";
+    }
 }

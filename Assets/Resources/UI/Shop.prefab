@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7131200695388377654}
   - component: {fileID: 3011579503236613274}
+  - component: {fileID: 7363911369311439696}
   m_Layer: 5
   m_Name: Shop
   m_TagString: Untagged
@@ -46,6 +47,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 191579013385172990}
   m_CullTransparentMesh: 0
+--- !u!114 &7363911369311439696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191579013385172990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d633ffe60e9a4fc4b2eb00d2c5e97149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CloseButton: {fileID: 2783445266189241824}
 --- !u!1 &1996418206354242496
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +497,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 65.25
+  m_fontSize: 65.8
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1047,8 +1061,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3, y: -50.5}
-  m_SizeDelta: {x: -106, y: -211}
+  m_AnchoredPosition: {x: 3, y: -47.5}
+  m_SizeDelta: {x: -106, y: -205}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3544614796646761473
 CanvasRenderer:
@@ -1426,7 +1440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -48, y: -48.00006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3283439697133242987
@@ -1753,6 +1767,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 758359ed59911f041a7f40ab05178e7e, type: 3}
+--- !u!114 &2783445266189241824 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 587532346528666502, guid: 758359ed59911f041a7f40ab05178e7e, type: 3}
+  m_PrefabInstance: {fileID: 3352821305238314598}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4105790245480486339 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1620503457779125157, guid: 758359ed59911f041a7f40ab05178e7e, type: 3}

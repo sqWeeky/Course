@@ -6,6 +6,8 @@ using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.Randomizer;
 using Infastracture.Services.SaveLoad;
 using StaticData;
+using UI.Services.Factory;
+using UI.Services.Window;
 using UnityEngine;
 
 namespace Infastracture.States
@@ -45,9 +47,15 @@ namespace Infastracture.States
             _services.RegisterSingle<IRandomService>(new RandomService());
             _services.RegisterSingle<IAssets>(new AssetProvider());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-            _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>(),
-                _services.Single<IStaticDataService>(), _services.Single<IRandomService>(),
-                _services.Single<IPersistentProgressService>()));
+            _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(),
+                _services.Single<IStaticDataService>()));
+            _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
+            _services.RegisterSingle<IGameFactory>(new GameFactory(
+                _services.Single<IAssets>(),
+                _services.Single<IStaticDataService>(),
+                _services.Single<IRandomService>(),
+                _services.Single<IPersistentProgressService>(),
+                _services.Single<IWindowService>()));
             _services.RegisterSingle<ISaveLoadService>(
                 new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
         }

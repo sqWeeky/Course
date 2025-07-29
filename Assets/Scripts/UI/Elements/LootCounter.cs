@@ -2,7 +2,7 @@ using Data;
 using TMPro;
 using UnityEngine;
 
-namespace Canvas
+namespace UI.Elements
 {
     public class LootCounter : MonoBehaviour
     {
