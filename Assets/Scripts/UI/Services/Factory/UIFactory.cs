@@ -1,7 +1,9 @@
 ﻿using Infastracture.AssetManagement;
 using Infastracture.Services;
+using Infastracture.Services.PersistentProgress;
 using StaticData.Windows;
 using UI.Services.Window;
+using UI.Windows;
 using UnityEngine;
 
 namespace UI.Services.Factory
@@ -10,19 +12,22 @@ namespace UI.Services.Factory
     {
         private readonly IAssets _assets;
         private readonly IStaticDataService _staticDataService;
+        private readonly IPersistentProgressService _progressService;
 
         private Transform _uiRoot;
 
-        public UIFactory(IAssets assets, IStaticDataService staticDataService)
+        public UIFactory(IAssets assets, IStaticDataService staticDataService, IPersistentProgressService progressService)
         {
             _assets = assets;
             _staticDataService = staticDataService;
+            _progressService = progressService;
         }
 
         public void CreateShop()
         {
             WindowConfig config = _staticDataService.ForWindow(WindowId.Shop);
-            Object.Instantiate(config.Prefab, _uiRoot);
+            WindowBase window= Object.Instantiate(config.Prefab, _uiRoot);
+            window.Construct(_progressService);
         }
 
         public void CreateUIRoot() =>

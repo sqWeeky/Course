@@ -5,7 +5,6 @@ using Infastracture.Services.Input;
 using Infastracture.Services.PersistentProgress;
 using Infastracture.Services.Randomizer;
 using Infastracture.Services.SaveLoad;
-using StaticData;
 using UI.Services.Factory;
 using UI.Services.Window;
 using UnityEngine;
@@ -48,7 +47,7 @@ namespace Infastracture.States
             _services.RegisterSingle<IAssets>(new AssetProvider());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
             _services.RegisterSingle<IUIFactory>(new UIFactory(_services.Single<IAssets>(),
-                _services.Single<IStaticDataService>()));
+                _services.Single<IStaticDataService>(), _services.Single<IPersistentProgressService>()));
             _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
             _services.RegisterSingle<IGameFactory>(new GameFactory(
                 _services.Single<IAssets>(),
