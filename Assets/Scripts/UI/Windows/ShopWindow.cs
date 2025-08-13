@@ -8,6 +8,9 @@ namespace UI.Windows
         [SerializeField] private TextMeshProUGUI _skullText;
 
         protected override void Initialize() =>
+            RefreshSkullText();
+
+        protected override void SubscribeUpdates() =>
             Progress.WorldData.LootData.Changed += RefreshSkullText;
 
         protected override void Cleanup()

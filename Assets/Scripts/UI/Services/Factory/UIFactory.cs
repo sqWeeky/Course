@@ -26,7 +26,7 @@ namespace UI.Services.Factory
         public void CreateShop()
         {
             WindowConfig config = _staticDataService.ForWindow(WindowId.Shop);
-            WindowBase window= Object.Instantiate(config.Prefab, _uiRoot);
+            WindowBase window = Object.Instantiate(config.Prefab, _uiRoot);
             window.Construct(_progressService);
         }
 
