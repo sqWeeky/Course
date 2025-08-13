@@ -46,9 +46,9 @@ namespace Infastracture.Factory
             return lootPiece;
         }
 
-        public GameObject CreatePlayer(GameObject initialPoint)
+        public GameObject CreatePlayer(Vector3 initialPoint)
         {
-            HeroGameObject = InstantiateRegistered(Constants.AssetPath.PlayerPath, initialPoint.transform.position);
+            HeroGameObject = InstantiateRegistered(Constants.AssetPath.PlayerPath, initialPoint);
             return HeroGameObject;
         }
 

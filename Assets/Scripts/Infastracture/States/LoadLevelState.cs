@@ -15,7 +15,6 @@ namespace Infastracture.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private const string InitialPointTag = "InitialPlayerPoint";
         private const string EnemySpawnerTag = "EnemySpawner";
 
         private readonly GameStateMachine _stateMachine;
@@ -64,27 +63,24 @@ namespace Infastracture.States
         private void InformProgressReaders()
         {
             foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
-            {
                 progressReader.LoadProgress(_progressService.Progress);
-            }
         }
 
         private void InitGameWorld()
         {
-            InitSpawners();
+            var levelData = LevelStaticData();
+
+            InitSpawners(levelData);
             InitLootPieces();
 
-            var player = InitPlayer();
+            var player = InitPlayer(levelData);
 
             InitHub(player);
             CameraFollow(player);
         }
 
-        private void InitSpawners()
+        private void InitSpawners(LevelStaticData levelData)
         {
-            string sceneKye = SceneManager.GetActiveScene().name;
-            LevelStaticData levelData = _staticDataService.ForLevel(sceneKye);
-
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
                 _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeID);
         }
@@ -105,8 +101,15 @@ namespace Infastracture.States
             hub.GetComponentInChildren<ActorUI>().Construct(player.GetComponent<PlayerHealth>());
         }
 
-        private GameObject InitPlayer() =>
-            _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
+        private GameObject InitPlayer(LevelStaticData levelData) => 
+            _gameFactory.CreatePlayer(levelData.InitialHeroPosition);
+
+        private LevelStaticData LevelStaticData()
+        {
+            string sceneKye = SceneManager.GetActiveScene().name;
+            LevelStaticData levelData = _staticDataService.ForLevel(sceneKye);
+            return levelData;
+        }
 
         private void CameraFollow(GameObject player)
         {

@@ -12,7 +12,7 @@ namespace Infastracture.Factory
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
 
-        GameObject CreatePlayer(GameObject initialPoint);
+        GameObject CreatePlayer(Vector3 initialPoint);
         GameObject CreateHud();
         void CleanUp();
         void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeID monsterTypeID);
