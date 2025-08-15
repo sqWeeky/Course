@@ -10,7 +10,7 @@ using UI.Services.Factory;
 
 namespace Infastracture.States
 {
-    public class GameStateMachine
+    public class GameStateMachine : IGameStateMachine
     {
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;

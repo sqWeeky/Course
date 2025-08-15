@@ -27,4 +27,10 @@ public class Constants : MonoBehaviour
     {
         public const string UIRootPath = "UI/UIRoot";
     }
+
+    public class Tag
+    {
+        public const string PlayerTag = "Player";
+        public const string InitialPointTag = "InitialPlayerPoint";
+    }
 }
