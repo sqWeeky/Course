@@ -42,6 +42,7 @@ namespace Infastracture.States
         {
             _curtain.Show();
             _gameFactory.CleanUp();
+            _gameFactory.WarmUp();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
@@ -101,7 +102,7 @@ namespace Infastracture.States
             hub.GetComponentInChildren<ActorUI>().Construct(player.GetComponent<PlayerHealth>());
         }
 
-        private GameObject InitPlayer(LevelStaticData levelData) => 
+        private GameObject InitPlayer(LevelStaticData levelData) =>
             _gameFactory.CreatePlayer(levelData.InitialHeroPosition);
 
         private LevelStaticData LevelStaticData()

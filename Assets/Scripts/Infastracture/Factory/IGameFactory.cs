@@ -20,5 +20,6 @@ namespace Infastracture.Factory
 
         Task<GameObject> CreateMonster(MonsterTypeID typeID, Transform parent);
         LootPiece CreatLoot();
+        Task WarmUp();
     }
 }

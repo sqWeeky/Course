@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Enemy;
 using Infastracture.AssetManagement;
@@ -9,13 +8,10 @@ using Infastracture.Services.Randomizer;
 using Logic;
 using Logic.EnemySpawners;
 using StaticData;
-using UI;
 using UI.Elements;
 using UI.Services.Window;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace Infastracture.Factory
@@ -45,8 +41,8 @@ namespace Infastracture.Factory
 
         public async Task WarmUp()
         {
-            // await _assetProvide.Load<GameObject>(Constants.AssetAddress.Loot);
-            // await _assetProvide.Load<GameObject>(Constants.AssetAddress.Spawner);
+            await _assets.Load<GameObject>(Constants.AssetAddress.Loot);
+            await _assets.Load<GameObject>(Constants.AssetAddress.Spawner);
         }
 
         public LootPiece CreatLoot()
@@ -68,9 +64,7 @@ namespace Infastracture.Factory
             hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
 
             foreach (OpenWindowButton openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>())
-            {
                 openWindowButton.Construct(_windowService);
-            }
 
             return hud;
         }
@@ -122,6 +116,8 @@ namespace Infastracture.Factory
         {
             ProgressReaders.Clear();
             ProgressWriters.Clear();
+
+            _assets.CleanUp();
         }
 
         public void Register(ISavedProgressReader progressReader)
