@@ -33,15 +33,16 @@ namespace Enemy
             _lootMax = max;
         }
 
-        private void SpawnLoot()
+        private async void SpawnLoot()
         {
             EnemyDeath.Happened -= SpawnLoot;
 
-            LootPiece lootPiece = _factory.CreatLoot();
+            LootPiece lootPiece = await _factory.CreatLoot();
+            
             lootPiece.transform.position = transform.position;
             lootPiece.GetComponent<UniqueID>().GenerateId();
-
             Loot lootItem = GenerateLootItem();
+            
             lootPiece.Initialize(lootItem);
         }
 

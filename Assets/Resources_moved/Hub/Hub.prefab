@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 9053351616022615325}
   - component: {fileID: 3553312376261887547}
   m_Layer: 0
-  m_Name: Hud
+  m_Name: Hub
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

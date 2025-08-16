@@ -1,4 +1,5 @@
-﻿using CameraLogic;
+﻿using System.Threading.Tasks;
+using CameraLogic;
 using Enemy;
 using Infastracture.Factory;
 using Infastracture.Services;
@@ -49,17 +50,17 @@ namespace Infastracture.States
         public void Exit() =>
             _curtain.Hide();
 
-        private void OnLoaded()
+        private async void OnLoaded()
         {
-            IniUIRoot();
-            InitGameWorld();
+            await IniUIRoot();
+            await InitGameWorld();
             InformProgressReaders();
 
             _stateMachine.Enter<GameLoopState>();
         }
 
-        private void IniUIRoot() =>
-            _uiFactory.CreateUIRoot();
+        private async Task IniUIRoot() =>
+           await _uiFactory.CreateUIRoot();
 
         private void InformProgressReaders()
         {
@@ -67,43 +68,41 @@ namespace Infastracture.States
                 progressReader.LoadProgress(_progressService.Progress);
         }
 
-        private void InitGameWorld()
+        private async Task InitGameWorld()
         {
             var levelData = LevelStaticData();
-
-            InitSpawners(levelData);
-            InitLootPieces();
-
-            var player = InitPlayer(levelData);
-
-            InitHub(player);
+            await InitSpawners(levelData);
+            await InitLootPieces();
+            var player = await InitPlayer(levelData);
+            await InitHub(player);
+            
             CameraFollow(player);
         }
 
-        private void InitSpawners(LevelStaticData levelData)
+        private async Task InitSpawners(LevelStaticData levelData)
         {
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
-                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeID);
+                await _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeID);
         }
 
-        private void InitLootPieces()
+        private async Task InitLootPieces()
         {
             foreach (string key in _progressService.Progress.WorldData.LootData.LootPiecesOnScene.Id)
             {
-                LootPiece lootPiece = _gameFactory.CreatLoot();
+                LootPiece lootPiece = await _gameFactory.CreatLoot();
                 lootPiece.GetComponent<UniqueID>().ID = key;
             }
         }
 
-        private void InitHub(GameObject player)
+        private async Task InitHub(GameObject player)
         {
-            GameObject hub = _gameFactory.CreateHud();
+            GameObject hub = await _gameFactory.CreateHud();
             hub.transform.SetParent(player.transform);
             hub.GetComponentInChildren<ActorUI>().Construct(player.GetComponent<PlayerHealth>());
         }
 
-        private GameObject InitPlayer(LevelStaticData levelData) =>
-            _gameFactory.CreatePlayer(levelData.InitialHeroPosition);
+        private async Task<GameObject> InitPlayer(LevelStaticData levelData) =>
+            await _gameFactory.CreatePlayer(levelData.InitialHeroPosition);
 
         private LevelStaticData LevelStaticData()
         {

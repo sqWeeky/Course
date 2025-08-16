@@ -13,13 +13,13 @@ namespace Infastracture.Factory
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
 
-        GameObject CreatePlayer(Vector3 initialPoint);
-        GameObject CreateHud();
+        Task<GameObject> CreatePlayer(Vector3 initialPoint);
+        Task<GameObject> CreateHud();
         void CleanUp();
-        void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeID monsterTypeID);
+        Task CreateSpawner(Vector3 at, string spawnerId, MonsterTypeID monsterTypeID);
 
         Task<GameObject> CreateMonster(MonsterTypeID typeID, Transform parent);
-        LootPiece CreatLoot();
+        Task<LootPiece> CreatLoot();
         Task WarmUp();
     }
 }

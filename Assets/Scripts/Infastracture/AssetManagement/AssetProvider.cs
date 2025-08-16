@@ -38,30 +38,26 @@ namespace Infastracture.AssetManagement
                 cacheKey: address);
         }
 
-        public GameObject Instantiate(string path)
+        public Task<GameObject> Instantiate(string address)
         {
-            var prefab = Resources.Load<GameObject>(path);
-
-            if (prefab == null)
+            if (address == null)
             {
-                Debug.LogError($"[LoadLevelState] Cannot find prefab at Resources/{path}");
+                Debug.LogError($"[LoadLevelState] Cannot find prefab at Resources/{address}");
                 return null;
             }
 
-            return Object.Instantiate(prefab);
+            return Addressables.InstantiateAsync(address).Task;
         }
 
-        public GameObject Instantiate(string path, Vector3 at)
+        public Task<GameObject> Instantiate(string address, Vector3 at)
         {
-            var prefab = Resources.Load<GameObject>(path);
-
-            if (prefab == null)
+            if (address == null)
             {
-                Debug.LogError($"[LoadLevelState] Cannot find prefab at Resources/{path}");
+                Debug.LogError($"[LoadLevelState] Cannot find prefab at Resources/{address}");
                 return null;
             }
 
-            return Object.Instantiate(prefab, at, Quaternion.identity);
+            return Addressables.InstantiateAsync(address, at, Quaternion.identity).Task;
         }
 
         public void CleanUp()

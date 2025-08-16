@@ -1,4 +1,5 @@
-﻿using Infastracture.AssetManagement;
+﻿using System.Threading.Tasks;
+using Infastracture.AssetManagement;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
 using StaticData.Windows;
@@ -16,7 +17,8 @@ namespace UI.Services.Factory
 
         private Transform _uiRoot;
 
-        public UIFactory(IAssets assets, IStaticDataService staticDataService, IPersistentProgressService progressService)
+        public UIFactory(IAssets assets, IStaticDataService staticDataService,
+            IPersistentProgressService progressService)
         {
             _assets = assets;
             _staticDataService = staticDataService;
@@ -30,7 +32,10 @@ namespace UI.Services.Factory
             window.Construct(_progressService);
         }
 
-        public void CreateUIRoot() =>
-            _uiRoot = _assets.Instantiate(Constants.UI.UIRootPath).transform;
+        public async Task CreateUIRoot()
+        {
+            GameObject root = await _assets.Instantiate(Constants.AssetAddress.UIRoot);
+            _uiRoot = root.transform;
+        }
     }
 }

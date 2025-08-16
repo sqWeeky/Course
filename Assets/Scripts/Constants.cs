@@ -10,9 +10,10 @@ public class Constants : MonoBehaviour
     public class AssetAddress
     {
         public const string PlayerPath = "Player";
-        public const string HubPath = "Hub/Hud";
+        public const string HubPath = "Hub";
         public const string Spawner = "SpawnPoint";
         public const string Loot = "Loot";
+        public const string UIRoot = "UIRoot";
     }
 
     public class InputService
@@ -20,12 +21,6 @@ public class Constants : MonoBehaviour
         public const string Horizontal = "Horizontal";
         public const string Vertical = "Vertical";
         public const string ButtonFire = "Fire";
-    }
-
-
-    public class UI
-    {
-        public const string UIRootPath = "UI/UIRoot";
     }
 
     public class Tag
