@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using Enemy;
 using Infastracture.AssetManagement;
 using Infastracture.Services;
@@ -11,7 +13,9 @@ using UI;
 using UI.Elements;
 using UI.Services.Window;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 namespace Infastracture.Factory
@@ -39,22 +43,28 @@ namespace Infastracture.Factory
 
         private GameObject HeroGameObject { get; set; }
 
+        public async Task WarmUp()
+        {
+            // await _assetProvide.Load<GameObject>(Constants.AssetAddress.Loot);
+            // await _assetProvide.Load<GameObject>(Constants.AssetAddress.Spawner);
+        }
+
         public LootPiece CreatLoot()
         {
-            LootPiece lootPiece = InstantiateRegistered(Constants.AssetPath.Loot).GetComponent<LootPiece>();
+            LootPiece lootPiece = InstantiateRegistered(Constants.AssetAddress.Loot).GetComponent<LootPiece>();
             lootPiece.Construct(_progressService.Progress.WorldData);
             return lootPiece;
         }
 
         public GameObject CreatePlayer(Vector3 initialPoint)
         {
-            HeroGameObject = InstantiateRegistered(Constants.AssetPath.PlayerPath, initialPoint);
+            HeroGameObject = InstantiateRegistered(Constants.AssetAddress.PlayerPath, initialPoint);
             return HeroGameObject;
         }
 
         public GameObject CreateHud()
         {
-            GameObject hud = InstantiateRegistered(Constants.AssetPath.HubPath);
+            GameObject hud = InstantiateRegistered(Constants.AssetAddress.HubPath);
             hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
 
             foreach (OpenWindowButton openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>())
@@ -67,7 +77,7 @@ namespace Infastracture.Factory
 
         public void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeID monsterTypeID)
         {
-            SpawnPoint spawner = InstantiateRegistered(Constants.AssetPath.Spawner)
+            SpawnPoint spawner = InstantiateRegistered(Constants.AssetAddress.Spawner)
                 .GetComponent<SpawnPoint>();
 
             spawner.Construct(this);
@@ -76,10 +86,13 @@ namespace Infastracture.Factory
             spawner.transform.position = at;
         }
 
-        public GameObject CreateMonster(MonsterTypeID typeID, Transform parent)
+        public async Task<GameObject> CreateMonster(MonsterTypeID typeID, Transform parent)
         {
             MonsterStaticData monsterData = _staticData.ForMonster(typeID);
-            GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
+
+            GameObject prefab = await _assets.Load<GameObject>(monsterData.PrefabReference);
+            GameObject monster = Object.Instantiate(prefab, parent.position, Quaternion.identity,
+                parent);
 
             IHealth health = monster.GetComponent<IHealth>();
             health.CurrentHealth = monsterData.Health;
@@ -89,11 +102,11 @@ namespace Infastracture.Factory
             monster.GetComponent<AgentMoveToPlayer>().Construct(HeroGameObject.transform);
             monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
 
-            var lootSpawner = monster.GetComponentInChildren<LootSpawner>();
+            LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
             lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
             lootSpawner.Construct(this, _randomService);
 
-            var attack = monster.GetComponent<Attack>();
+            Attack attack = monster.GetComponent<Attack>();
             attack.Construct(HeroGameObject.transform);
             attack.Damage = monsterData.Damage;
             attack.EffectiveDistance = monsterData.EffectiveDistance;

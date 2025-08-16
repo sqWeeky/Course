@@ -16,7 +16,27 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 77f1f3899ff3c4a4d90aefec3200c929
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 44c890ee21c834e48945564c6e4bb9c3
+    m_Address: Golem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 432ae615696664e48b4ef35ac5566e62
+    m_Address: Lich
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93b1b332969862a428205d21c9c4bb53
+    m_Address: Loot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42f66e02f0274534a97bf0744bdb330e
+    m_Address: SpawnPoint
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6b623e30ddf62ff428f7f7a2e40afb08, type: 2}
   m_SchemaSet:

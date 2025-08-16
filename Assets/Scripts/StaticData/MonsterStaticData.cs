@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Serialization;
 
 namespace StaticData
 {
@@ -22,6 +24,6 @@ namespace StaticData
 
         [Range(0f, 10f)] public float CooldownAttack;
 
-        public GameObject Prefab;
+        public AssetReferenceGameObject PrefabReference;
     }
 }

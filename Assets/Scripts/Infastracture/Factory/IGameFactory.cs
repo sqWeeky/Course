@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Enemy;
 using Infastracture.Services;
 using Infastracture.Services.PersistentProgress;
@@ -17,7 +18,7 @@ namespace Infastracture.Factory
         void CleanUp();
         void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeID monsterTypeID);
 
-        GameObject CreateMonster(MonsterTypeID typeID, Transform parent);
+        Task<GameObject> CreateMonster(MonsterTypeID typeID, Transform parent);
         LootPiece CreatLoot();
     }
 }

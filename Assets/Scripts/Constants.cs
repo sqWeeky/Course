@@ -7,12 +7,12 @@ public class Constants : MonoBehaviour
         public static readonly float MoveSpeed = 5f;
     }
 
-    public class AssetPath
+    public class AssetAddress
     {
         public const string PlayerPath = "Player";
         public const string HubPath = "Hub/Hud";
-        public const string Spawner = "Enemies/SpawnPoint";
-        public const string Loot = "Loot/Loot";
+        public const string Spawner = "SpawnPoint";
+        public const string Loot = "Loot";
     }
 
     public class InputService
